@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intrusion Detection Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #1a73e8;
+            margin-bottom: 10px;
+        }
+
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .event-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .event-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .event-card video {
+            width: 100%;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .event-card img {
+            width: 100%;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+
+        .event-details {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .event-details p {
+            color: #666;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .timestamp {
+            color: #1a73e8;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>Intrusion Detection System</h1>
+            <p>Real-time surveillance monitoring dashboard</p>
+        </div>
+
+        <div class="event-grid">
+            {% for event in intrusion_events %}
+                <div class="event-card">
+                    <h3>Detection Event #{{ event.id }}</h3>
+                    
+                    {% if event.video %}
+                        <video controls>
+                            <source src="{{ event.video.url}}" type="video/mp4">
+                            Your browser does not support video playback.
+                        </video>
+                    {% endif %}
+
+                    {% if event.image %}
+                        <img src="{{ event.image.url }}" alt="Detected Face">
+                    {% endif %}
+
+                    <div class="event-details">
+                        <p class="timestamp">Time: {{ event.timestamp }}</p>
+                        <p>Location: {{ event.location|default:"Main Camera" }}</p>
+                        <p>Detection Type: {{ event.type|default:"Face Detection" }}</p>
+                        <p>Status: {{ event.status|default:"Recorded" }}</p>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="event-card">
+                    <h3>No Events</h3>
+                    <p>No intrusion events have been detected yet.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
