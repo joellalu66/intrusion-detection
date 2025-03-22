@@ -43,8 +43,7 @@ frame_height = int(video.get(4))
 # Generate filenames with correct paths
 timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 video_path = os.path.join(VIDEO_DIR, f"intrusion_{timestamp}.mp4")
-video_writer = cv2.VideoWriter(video_path, cv2.VideoWriter_fourcc(*'mp4v'), 10, (frame_width, frame_height))
-
+video_writer = cv2.VideoWriter(video_path, cv2.VideoWriter_fourcc(*'avc1'), 10, (frame_width, frame_height))
 last_capture_time = time.time()
 
 while True:
