@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+# from django.http import HttpResponse
 from .models import IntrusionEvent
 
 def display(req):
@@ -7,5 +7,5 @@ def display(req):
 
 
 def dashboard(request):
-    intrusion_events = IntrusionEvent.objects.all()
+    intrusion_events = IntrusionEvent.objects.values('id', 'timestamp', 'video', 'image')
     return render(request, "dash.html", {"intrusion_events": intrusion_events})
